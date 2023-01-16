@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
+using Sirenix.Utilities;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Data/LevelData")]
@@ -6,21 +8,25 @@ public class LevelData : ScriptableObject
 {
 	public int Index;
 
-	public bool[,] GetMap()
+	public bool[,] GetMap() => MapCellDrawing;
+	
+	[ShowInInspector]
+	[TableMatrix(HorizontalTitle = "Map", DrawElementMethod = "DrawColoredEnumElement", ResizableColumns = true)]
+	private bool[,] MapCellDrawing = new bool[12, 12];
+	
+	private static bool DrawColoredEnumElement(Rect rect, bool value)
 	{
-		bool[,] map= new bool[12,12];
-		var lines = CharMap.Split('\n', '\r');
-		for (int i = 0; i < 12; i++)
+		if (Event.current.type == EventType.MouseDown && rect.Contains(Event.current.mousePosition))
 		{
-			for (int j = 0; j < 12; j++)
-			{
-				map[i, j] = lines[i][j] == '1';
-			}
+			value = !value;
+			GUI.changed = true;
+			Event.current.Use();
 		}
-		return map;
+
+		UnityEditor.EditorGUI.DrawRect(rect.Padding(1), value ? new Color(0.1f, 0.8f, 0.2f) : new Color(0, 0, 0, 0.5f));
+
+		return value;
 	}
-	[TextArea(16,16)]
-	public string CharMap;
 
 	public List<WaveData> WaveDatas;
 	public float WaveInterval = 5f;
