@@ -1,15 +1,16 @@
-﻿using UnityEngine;
+﻿using PowerUps;
+using PowerUps.Behaviour;
 
-public class WeaponPowerUp : MonoBehaviour
+namespace Collectables
 {
-	public int Type;
-
-	private void OnTriggerEnter(Collider other)
-	{
-		if (other.CompareTag("Player"))
-		{
-			other.GetComponent<Player>().ChangeWeapon(Type);
-			Destroy(gameObject);
-		}
-	}
+    public class WeaponPowerUp : PowerUpComponentBase
+    {
+        public WeaponType Type;
+        
+        public override void ApplyPowerUp()
+        {
+            Player.Instance.ChangeWeapon(Type);
+            Destroy(gameObject);
+        }
+    }
 }

@@ -1,16 +1,18 @@
-﻿using UnityEngine;
+﻿using PowerUps.Behaviour;
+using UnityEngine;
 
-public class PowerUp : MonoBehaviour
+namespace Collectables
 {
-	public int Health;
-	public int Damage;
-	public float MoveSpeed;
-	private void OnTriggerEnter(Collider other)
-	{
-		if (other.CompareTag("Player"))
-		{
-			other.GetComponent<Player>().Upgrade(Health,Damage, MoveSpeed);
-			Destroy(gameObject);
-		}
-	}
+    public class PowerUp : PowerUpComponentBase
+    {
+        [SerializeField] private int _health;
+        [SerializeField] private int _damage;
+        [SerializeField] private float _moveSpeed;
+
+        public override void ApplyPowerUp()
+        {
+            Player.Instance.Upgrade(_health, _damage, _moveSpeed);
+            Destroy(gameObject);
+        }
+    }
 }

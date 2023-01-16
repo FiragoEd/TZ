@@ -1,14 +1,16 @@
-﻿using UnityEngine;
+﻿using PowerUps.Behaviour;
+using UnityEngine;
 
-public class HealthPack : MonoBehaviour
+namespace Collectables
 {
-	public int Health;
-	private void OnTriggerEnter(Collider other)
-	{
-		if (other.CompareTag("Player"))
-		{
-			other.GetComponent<Player>().Heal(Health);
-			Destroy(gameObject);
-		}
-	}
+    public class HealthPack : PowerUpComponentBase
+    {
+        [SerializeField] private int Health;
+        
+        public override void ApplyPowerUp()
+        {
+            Player.Instance.Heal(Health);
+            Destroy(gameObject);
+        }
+    }
 }

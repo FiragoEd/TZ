@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbf0983d367042c1957c464692d9ced1, type: 3}
+  m_Name: WeaponPowerUpConfigSet
+  m_EditorClassIdentifier: 
+  _weaponPowerUpConfigs:
+  - {fileID: 11400000, guid: 7ab96c43f2477483b9cfeceeac5f7ecd, type: 2}
+  - {fileID: 11400000, guid: 71dfbd1d003d442198407ee99a42efe3, type: 2}
+  - {fileID: 11400000, guid: 608393d9616394688b7cecfc5644517a, type: 2}

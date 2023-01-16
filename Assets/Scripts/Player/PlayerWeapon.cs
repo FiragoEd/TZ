@@ -1,11 +1,9 @@
-﻿using UnityEngine;
+﻿using PowerUps;
+using UnityEngine;
 
 public abstract class PlayerWeapon : MonoBehaviour
 {
-	public const int Rifle = 0;
-	public const int Shotgun = 1;
-	public const int AutomaticRifle = 2;
-	public abstract int Type { get; }
+	public abstract WeaponType Type { get; }
 	public GameObject Model;
 
 	protected virtual void Awake()
@@ -18,7 +16,7 @@ public abstract class PlayerWeapon : MonoBehaviour
 		EventBus<PlayerInputMessage>.Unsub(Fire);
 	}
 
-	protected void Change(int type)
+	protected void Change(WeaponType type)
 	{
 		EventBus<PlayerInputMessage>.Unsub(Fire);
 		if (type == Type)
@@ -28,5 +26,5 @@ public abstract class PlayerWeapon : MonoBehaviour
 		Model.SetActive(type == Type);
 	}
 
-	protected abstract  void Fire(PlayerInputMessage message);
+	protected abstract void Fire(PlayerInputMessage message);
 }

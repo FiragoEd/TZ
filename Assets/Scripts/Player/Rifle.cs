@@ -1,9 +1,10 @@
 ﻿using System.Threading.Tasks;
+using PowerUps;
 using UnityEngine;
 
 public class Rifle : PlayerWeapon
 {
-	public override int Type => PlayerWeapon.Rifle;
+	public override WeaponType Type => WeaponType.Rifle;
 	public Projectile BulletPrefab;
 	public float Reload = 1f;
 	public Transform FirePoint;

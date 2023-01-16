@@ -1,6 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
+using PowerUps;
+using PowerUps.Behaviour;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -10,8 +10,8 @@ public class Player : MonoBehaviour
     public float MoveSpeed = 3.5f;
     public float Health = 3;
     public float MaxHealth = 3;
-
-    public Action<int> OnWeaponChange = null;
+    
+    public Action<WeaponType> OnWeaponChange = null;
     public Action<float, float> OnHPChange = null;
     public Action OnUpgrade = null;
 
@@ -59,6 +59,12 @@ public class Player : MonoBehaviour
         OnHPChange?.Invoke(Health, amount);
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponent<PowerUpComponentBase>())
+            other.GetComponent<PowerUpComponentBase>().ApplyPowerUp();
+            
+    }
 
     public void Upgrade(float hp, float dmg, float ms)
     {
@@ -70,7 +76,7 @@ public class Player : MonoBehaviour
         OnHPChange?.Invoke(Health, 0);
     }
 
-    public void ChangeWeapon(int type)
+    public void ChangeWeapon(WeaponType type)
     {
         OnWeaponChange?.Invoke(type);
     }

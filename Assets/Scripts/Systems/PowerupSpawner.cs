@@ -1,98 +1,79 @@
-﻿using UnityEngine;
+using System.Collections.Generic;
+using PowerUps;
+using PowerUps.Config;
+using UnityEngine;
+using Utils;
 
-//Bad class
 public class PowerupSpawner : MonoBehaviour
 {
-	[Range(0, 100)] public float HealthUpgradeWeight = 10;
-	[Range(0, 100)] public float DamageUpgradeWeight = 10;
-	[Range(0, 100)] public float MoveSpeedUpgradeWeight = 5;
-	[Range(0, 100)] public float HealWeight = 25;
-	[Range(0, 100)] public float WeaponChangeWeight = 2;
-	[Range(0, 100)] public float RifleWeight = 25;
-	[Range(0, 100)] public float AutomaticRifleWeight = 15;
-	[Range(0, 100)] public float ShotgunWeight = 20;
+    [SerializeField] private PowerUpConfigSet _powerUpConfigSet;
+    [SerializeField] private WeaponConfigSet _weaponConfigSet;
 
-	public PowerUp HealthPrefab;
-	public PowerUp DamagePrefab;
-	public PowerUp MoveSpeedPrefab;
-	public HealthPack HealPrefab;
-	public WeaponPowerUp RiflePrefab;
-	public WeaponPowerUp AutomaticRifleWPrefab;
-	public WeaponPowerUp ShotgunPrefab;
+    private WeaponType _currentWeaponType = WeaponType.Rifle;
+    private readonly Dictionary<PowerUpType, float> _powerUpsWeight = new Dictionary<PowerUpType, float>();
+    private readonly Dictionary<WeaponType, float> _weaponPowerUpsWeight = new Dictionary<WeaponType, float>();
 
-	private float[] weights;
-	private float[] weaponWeights;
+    private void Awake()
+    {
+        EventBus.Sub(Handle, EventBus.MOB_KILLED);
+        Player.Instance.OnWeaponChange += HandleChangeWeapon;
+    }
     
-	private GameObject[] prefabs;
-	private WeaponPowerUp[] weaponPrefabs;
+    private void Start()
+    {
+        InitWeightDictionaries();
+    }
+
+    private void InitWeightDictionaries()
+    {
+        foreach (var powerUpConfig in _powerUpConfigSet.PowerUpConfigs)
+        {
+            _powerUpsWeight.Add(powerUpConfig.Type, powerUpConfig.Weight);
+        }
+
+        foreach (var weaponPower in _weaponConfigSet.WeaponPowerUpConfigs)
+        {
+            _weaponPowerUpsWeight.Add(weaponPower.Type, weaponPower.Weight);
+        }
+    }
+
+    private void Handle()
+    {
+        Spawn(PickRandomPosition());
+    }
     
-	private void Awake()
-	{
-		weights = new float[5];
-		weights[0] = HealthUpgradeWeight;
-		weights[1] = weights[0] + DamageUpgradeWeight;
-		weights[2] = weights[1] + MoveSpeedUpgradeWeight;
-		weights[3] = weights[2] + HealWeight;
-		weights[4] = weights[3] + WeaponChangeWeight;
-        
-		weaponWeights = new float[3];
-		weaponWeights[0] = RifleWeight;
-		weaponWeights[1] = weaponWeights[0] + AutomaticRifleWeight;
-		weaponWeights[2] = weaponWeights[1] + ShotgunWeight;
+    private void HandleChangeWeapon(WeaponType obj)
+    {
+        _currentWeaponType = obj;
+    }
 
-		prefabs = new[]
-		{
-			HealthPrefab.gameObject, 
-			DamagePrefab.gameObject, 
-			MoveSpeedPrefab.gameObject, 
-			HealPrefab.gameObject
-		};
-		weaponPrefabs = new[]
-		{
-			RiflePrefab,
-			AutomaticRifleWPrefab,
-			ShotgunPrefab
-		};
-        
-		EventBus.Sub(Handle, EventBus.MOB_KILLED);
-	}
-
-	private void Handle()
-	{
-		Spawn(PickRandomPosition());
-	}
-	
-	private Vector3 PickRandomPosition()
-	{
-		var vector3 = new Vector3();
-		vector3.x = Random.value * 11 - 6;
-		vector3.z = Random.value * 11 - 6;
-		return vector3;
-	}
+    private Vector3 PickRandomPosition()
+    {
+        var vector3 = new Vector3
+        {
+            x = Random.value * 11 - 6,
+            z = Random.value * 11 - 6,
+            y = 0.7f
+        };
+        return vector3;
+    }
 
 
-	private void Spawn(Vector3 position)
-	{
-		var rand = Random.value * weights[4];
-		int i = 0;
-		while (i< 5 && weights[i] >= rand)
-		{
-			i++;
-		}
-
-		if (i < 4)
-		{
-			Instantiate(prefabs[Mathf.Min(3,i)], position, Quaternion.identity);
-		}
-		else
-		{
-			rand = Random.value * weaponWeights[2];
-			i = 0;
-			while (i < 3 && weaponWeights[Mathf.Min(2,i)] >= rand )
-			{
-				i++;
-			}
-			Instantiate(weaponPrefabs[Mathf.Min(2,i)], position, Quaternion.identity);
-		}
-	}
+    private void Spawn(Vector3 position)
+    {
+        var type = RandomUtils.GetRandomFromArrayWithWeight(_powerUpsWeight);
+        if (type != PowerUpType.ChangeWeapon)
+        {
+            Instantiate(_powerUpConfigSet.PowerUpConfigs.Find(x => x.Type == type).Prefab, position,
+                Quaternion.identity); //Можно закешировать чтобы не тягать запросы каждый раз
+        }
+        else
+        {
+            var tempDict = _weaponPowerUpsWeight;
+            tempDict.Remove(_currentWeaponType);
+            var weaponType = RandomUtils.GetRandomFromArrayWithWeight(tempDict);
+            Instantiate(_weaponConfigSet.WeaponPowerUpConfigs.Find(x => x.Type == weaponType).Prefab, position,
+                Quaternion.identity); //Можно закешировать чтобы не тягать запросы каждый раз
+        }
+    }
 }
