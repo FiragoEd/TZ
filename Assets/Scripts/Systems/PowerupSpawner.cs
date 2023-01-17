@@ -16,7 +16,7 @@ public class PowerupSpawner : MonoBehaviour
     private void Awake()
     {
         EventBus.Sub(Handle, EventBus.MOB_KILLED);
-        Player.Instance.OnWeaponChange += HandleChangeWeapon;
+        Player.Instance.OnWeaponChange.AddListener(HandleChangeWeapon);
     }
     
     private void Start()

@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(MobMover))]
-[RequireComponent(typeof(Mob))]
+[RequireComponent(typeof(Mob.Mob))]
 public class RangeAttack : MonoBehaviour,IMobComponent
 {
 	public float AttackDistance = 5f;
@@ -12,14 +11,14 @@ public class RangeAttack : MonoBehaviour,IMobComponent
 	public Projectile Bullet;
     
 	private MobMover mover;
-	private Mob mob;
+	private Mob.Mob mob;
 	private MobAnimator mobAnimator;
 	private bool attacking = false;
 	private Coroutine _attackCoroutine = null;
 
 	private void Awake()
 	{
-		mob = GetComponent<Mob>();
+		mob = GetComponent<Mob.Mob>();
 		mover = GetComponent<MobMover>();
 		mobAnimator = GetComponent<MobAnimator>();
 		EventBus.Sub(OnDeath,EventBus.PLAYER_DEATH);

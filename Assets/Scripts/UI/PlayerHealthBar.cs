@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
+using Utils;
 
 public class PlayerHealthBar : MonoBehaviour
 {
@@ -12,7 +13,12 @@ public class PlayerHealthBar : MonoBehaviour
 	private void Awake()
 	{
 		player = GetComponent<Player>();
-		player.OnHPChange += OnHPChange;
+		player.OnHPChange.AddListener(OnHPChange);
+	}
+
+	private void OnDestroy()
+	{
+		player.OnHPChange.RemoveListener(OnHPChange);
 	}
 
 	public void OnDeath()
@@ -25,15 +31,15 @@ public class PlayerHealthBar : MonoBehaviour
 		Bar.transform.rotation = Camera.main.transform.rotation;
 	}
 
-	private void OnHPChange(float health, float diff)
+	private void OnHPChange(DeltaHP deltaHp)
 	{
-		var frac = health / player.MaxHealth;
-		Text.text = $"{health:####}/{player.MaxHealth:####}";
+		var frac = deltaHp.currentHP / player.MaxHealth;
+		Text.text = $"{deltaHp.currentHP:####}/{player.MaxHealth:####}";
 		BarImg.size = new Vector2(frac, BarImg.size.y);
 		var pos = BarImg.transform.localPosition;
 		pos.x = -(1 - frac) / 2;
 		BarImg.transform.localPosition = pos;
-		if (health <= 0)
+		if (deltaHp.currentHP <= 0)
 		{
 			Bar.SetActive(false);
 		}

@@ -4,7 +4,7 @@ namespace Systems
 {
 	public class MobSpawner : Handler<SpawnMobMessage>
 	{
-		public Mob[] Prefabs;
+		public Mob.Mob[] Prefabs;
 
 		protected override void Awake()
 		{

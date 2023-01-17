@@ -1,49 +1,61 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
+using Utils;
+using Utils.Events;
 
-public class Mob : MonoBehaviour
+namespace Mob
 {
-    public float Damage = 1;
-    public float MoveSpeed = 3.5f;
-    public float Health = 3;
-    public float MaxHealth = 3;
-    
-    public Action<float, float> OnHPChange = null;
+    public class Mob : MonoBehaviour
+    {
+        public float Damage = 1;
+        public float MoveSpeed = 3.5f;
+        public float Health = 3;
+        public float MaxHealth = 3;
+        
+        private readonly InvokableEvent<DeltaHP> _onHPChange = new InvokableEvent<DeltaHP>();
+        public Event<DeltaHP> OnHPChange => _onHPChange;
 
-    public void TakeDamage(float amount)
-    {
-        if (Health <= 0)
-            return;
-        Health -= amount;
-        OnHPChange?.Invoke(Health,-amount);
-        if (Health <= 0)
+        public void TakeDamage(float amount)
         {
-            Death();
+            if (Health <= 0)
+                return;
+            Health -= amount;
+            _onHPChange?.Invoke(new DeltaHP()
+            {
+                currentHP = Health,
+                deltaHP = -amount
+            });
+            if (Health <= 0)
+            {
+                Death();
+            }
         }
-    }
     
-    public void Heal(float amount)
-    {
-        if (Health <= 0)
-            return;
-        Health += amount;
-        if (Health > MaxHealth)
+        public void Heal(float amount)
         {
-            Health = MaxHealth;
+            if (Health <= 0)
+                return;
+            Health += amount;
+            if (Health > MaxHealth)
+            {
+                Health = MaxHealth;
+            }
+            _onHPChange?.Invoke(new DeltaHP()
+            {
+                currentHP = Health,
+                deltaHP = amount
+            });
         }
-        OnHPChange?.Invoke(Health,amount);
-    }
 
-    public void Death()
-    {
-        EventBus.Pub(EventBus.MOB_KILLED);
-        var components = GetComponents<IMobComponent>();
-        foreach (var component in components)
+        public void Death()
         {
-            component.OnDeath();
+            EventBus.Pub(EventBus.MOB_KILLED);
+            var components = GetComponents<IMobComponent>();
+            foreach (var component in components)
+            {
+                component.OnDeath();
+            }
+            GetComponent<Collider>().enabled = false;
+            GetComponent<Rigidbody>().isKinematic = true;
         }
-        GetComponent<Collider>().enabled = false;
-        GetComponent<Rigidbody>().isKinematic = true;
     }
 }

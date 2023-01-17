@@ -24,7 +24,7 @@ public class Projectile : MonoBehaviour
 		
 		if (DamageMob && other.CompareTag("Mob"))
 		{
-			var mob = other.GetComponent<Mob>();
+			var mob = other.GetComponent<Mob.Mob>();
 			mob.TakeDamage(Damage);
 			destroyed = true;
 		}

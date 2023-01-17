@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections;
-using Unity.Mathematics;
+﻿using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(MobMover))]
-[RequireComponent(typeof(Mob))]
+[RequireComponent(typeof(Mob.Mob))]
 public class MeleeAttack : MonoBehaviour, IMobComponent
 {
 	public float AttackDistance = 1f;
@@ -13,14 +11,14 @@ public class MeleeAttack : MonoBehaviour, IMobComponent
 	public float AttackDelay = 1f;
     
 	private MobMover mover;
-	private Mob mob;
+	private Mob.Mob mob;
 	private MobAnimator mobAnimator;
 	private bool attacking = false;
 	private Coroutine _attackCoroutine = null;
 
 	private void Awake()
 	{
-		mob = GetComponent<Mob>();
+		mob = GetComponent<Mob.Mob>();
 		mover = GetComponent<MobMover>();
 		mobAnimator = GetComponent<MobAnimator>();
 		EventBus.Sub(OnDeath,EventBus.PLAYER_DEATH);

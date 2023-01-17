@@ -8,11 +8,12 @@ public abstract class PlayerWeapon : MonoBehaviour
 
 	protected virtual void Awake()
 	{
-		GetComponent<Player>().OnWeaponChange += Change;
+		GetComponent<Player>().OnWeaponChange.AddListener(Change);
 	}
 
 	protected virtual void OnDestroy()
 	{
+		GetComponent<Player>().OnWeaponChange.RemoveListener(Change);
 		EventBus<PlayerInputMessage>.Unsub(Fire);
 	}
 
