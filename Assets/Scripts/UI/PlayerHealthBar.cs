@@ -4,21 +4,24 @@ using Utils;
 
 public class PlayerHealthBar : MonoBehaviour
 {
+	[SerializeField] private Player _player;
 	public GameObject Bar;
 	public SpriteRenderer BarImg;
 	public TMP_Text Text;
 	public TMP_Text DamageText;
+	
 	private float maxHP;
-	private Player player;
+	
 	private void Awake()
 	{
-		player = GetComponent<Player>();
-		player.OnHPChange.AddListener(OnHPChange);
+		_player.OnHPChange.AddListener(OnHPChange);
+		_player.OnUpgrade.AddListener(OnUpgrade);
 	}
 
 	private void OnDestroy()
 	{
-		player.OnHPChange.RemoveListener(OnHPChange);
+		_player.OnHPChange.RemoveListener(OnHPChange);
+		_player.OnUpgrade.RemoveListener(OnUpgrade);
 	}
 
 	public void OnDeath()
@@ -33,8 +36,8 @@ public class PlayerHealthBar : MonoBehaviour
 
 	private void OnHPChange(DeltaHP deltaHp)
 	{
-		var frac = deltaHp.currentHP / player.MaxHealth;
-		Text.text = $"{deltaHp.currentHP:####}/{player.MaxHealth:####}";
+		var frac = deltaHp.currentHP / _player.MaxHealth;
+		Text.text = $"{deltaHp.currentHP:####}/{_player.MaxHealth:####}";
 		BarImg.size = new Vector2(frac, BarImg.size.y);
 		var pos = BarImg.transform.localPosition;
 		pos.x = -(1 - frac) / 2;
@@ -47,6 +50,6 @@ public class PlayerHealthBar : MonoBehaviour
 
 	private void OnUpgrade()
 	{
-		DamageText.text = $"{player.Damage}";
+		DamageText.text = $"{_player.Damage}";
 	}
 }
