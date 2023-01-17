@@ -296,6 +296,10 @@ PrefabInstance:
       propertyPath: _mob
       value: 
       objectReference: {fileID: 8621619010077877276}
+    - target: {fileID: 6613862331050588852, guid: 69bf256d04f88402a8be89ab784e333e, type: 3}
+      propertyPath: _mobAnimator
+      value: 
+      objectReference: {fileID: 1949625336525987856}
     - target: {fileID: 8328895844110791750, guid: 69bf256d04f88402a8be89ab784e333e, type: 3}
       propertyPath: m_RootOrder
       value: 1

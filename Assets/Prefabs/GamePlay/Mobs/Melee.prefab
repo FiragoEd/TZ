@@ -314,24 +314,16 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1985143107771805663, guid: 69bf256d04f88402a8be89ab784e333e, type: 3}
       propertyPath: m_Name
-      value: HealthBar
-      objectReference: {fileID: 0}
-    - target: {fileID: 1985143107771805663, guid: 69bf256d04f88402a8be89ab784e333e, type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5060596802456090740, guid: 69bf256d04f88402a8be89ab784e333e, type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6275366015323205141, guid: 69bf256d04f88402a8be89ab784e333e, type: 3}
-      propertyPath: m_Layer
-      value: 0
+      value: EnemyBar
       objectReference: {fileID: 0}
     - target: {fileID: 6613862331050588852, guid: 69bf256d04f88402a8be89ab784e333e, type: 3}
       propertyPath: _mob
       value: 
       objectReference: {fileID: 8269111731931150050}
+    - target: {fileID: 6613862331050588852, guid: 69bf256d04f88402a8be89ab784e333e, type: 3}
+      propertyPath: _mobAnimator
+      value: 
+      objectReference: {fileID: 5810525095806316378}
     - target: {fileID: 8328895844110791750, guid: 69bf256d04f88402a8be89ab784e333e, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -374,10 +366,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8328895844110791750, guid: 69bf256d04f88402a8be89ab784e333e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9212677569211275847, guid: 69bf256d04f88402a8be89ab784e333e, type: 3}
-      propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
