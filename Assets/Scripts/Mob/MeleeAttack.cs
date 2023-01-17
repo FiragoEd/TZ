@@ -3,6 +3,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(MobMover))]
 [RequireComponent(typeof(Mob.Mob))]
+[RequireComponent(typeof(MobAnimator))]
 public class MeleeAttack : MonoBehaviour, IMobComponent
 {
 	public float AttackDistance = 1f;

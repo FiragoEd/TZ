@@ -2,43 +2,61 @@ using TMPro;
 using UnityEngine;
 using Utils;
 
-public class HealthBar : MonoBehaviour, IMobComponent
+namespace UI
 {
-    public GameObject Bar;
-    public SpriteRenderer BarImg;
-    public TMP_Text Text;
-    private float maxHP;
-    private Mob.Mob _mob;
-
-    private void Awake()
+    public class HealthBar : MonoBehaviour, IMobComponent
     {
-        _mob = GetComponent<Mob.Mob>();
-        maxHP = _mob.MaxHealth;
-        _mob.OnHPChange.AddListener(OnHPChange);
-    }
+        [SerializeField] private Mob.Mob _mob;
+        [SerializeField] private GameObject _bar;
+        [SerializeField] private SpriteRenderer _barImg;
+        [SerializeField] private TMP_Text _text;
 
-    private void OnDestroy()
-    {
-        _mob.OnHPChange.AddListener(OnHPChange);
-    }
+        private float _maxHP;
+        
+        private void Awake()
+        {
+            _mob.OnHPChange.AddListener(OnHPChange);
+            _mob.OnDeath.AddListener(OnDeath);
+        }
 
-    public void OnDeath()
-    {
-        Bar.SetActive(false);
-    }
+        private void Start()
+        {
+            _maxHP = _mob.MaxHealth;
+            UpdateBar(_maxHP);
+        }
 
-    private void LateUpdate()
-    {
-        Bar.transform.rotation = Camera.main.transform.rotation;
-    }
+        private void OnDestroy()
+        {
+            _mob.OnHPChange.RemoveListener(OnHPChange);
+            _mob.OnDeath.RemoveListener(OnDeath);
+        }
 
-    private void OnHPChange(DeltaHP deltaHp)
-    {
-        var frac = deltaHp.currentHP / maxHP;
-        Text.text = $"{deltaHp.currentHP:####}/{maxHP:####}";
-        BarImg.size = new Vector2(frac, BarImg.size.y);
-        var pos = BarImg.transform.localPosition;
-        pos.x = -(1 - frac) / 2;
-        BarImg.transform.localPosition = pos;
+        public void OnDeath()
+        {
+            _bar.SetActive(false);
+        }
+
+        private void LateUpdate()
+        {
+            _bar.transform.rotation = Camera.main.transform.rotation; // TODO: рефакторинг этого этапа
+        }
+
+        private void UpdateBar(float hp)
+        {
+            var frac = hp / _maxHP;
+            _text.text = $"{hp:####}/{_maxHP:####}";
+            _barImg.size = new Vector2(frac, _barImg.size.y);
+            
+            var barTransform = _barImg.transform;
+            
+            var pos = barTransform.localPosition;
+            pos.x = -(1 - frac) / 2;
+            barTransform.localPosition = pos;
+        }
+        
+        private void OnHPChange(DeltaHP deltaHp)
+        {
+            UpdateBar(deltaHp.currentHP);
+        }
     }
 }

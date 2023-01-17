@@ -1,6 +1,7 @@
 using UnityEngine;
 using Utils;
 using Utils.Events;
+using Event = Utils.Events.Event;
 
 namespace Mob
 {
@@ -10,9 +11,18 @@ namespace Mob
         public float MoveSpeed = 3.5f;
         public float Health = 3;
         public float MaxHealth = 3;
+
         
+        #region Events
+
         private readonly InvokableEvent<DeltaHP> _onHPChange = new InvokableEvent<DeltaHP>();
         public Event<DeltaHP> OnHPChange => _onHPChange;
+        
+        private readonly InvokableEvent _onDeath = new InvokableEvent();
+        public Event OnDeath => _onDeath;
+
+        #endregion
+        
 
         public void TakeDamage(float amount)
         {
@@ -46,10 +56,11 @@ namespace Mob
             });
         }
 
-        public void Death()
+        private void Death()
         {
             EventBus.Pub(EventBus.MOB_KILLED);
             var components = GetComponents<IMobComponent>();
+            _onDeath?.Invoke();
             foreach (var component in components)
             {
                 component.OnDeath();
