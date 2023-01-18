@@ -65,7 +65,7 @@ public class PowerupSpawner : MonoBehaviour
         if (type != PowerUpType.ChangeWeapon)
         {
             Instantiate(_powerUpConfigSet.PowerUpConfigs.Find(x => x.Type == type).Prefab, position,
-                Quaternion.identity); //Можно закешировать чтобы не тягать запросы каждый раз
+                Quaternion.identity);
         }
         else
         {
@@ -73,7 +73,7 @@ public class PowerupSpawner : MonoBehaviour
             tempDict.Remove(_currentWeaponType);
             var weaponType = RandomUtils.GetRandomFromArrayWithWeight(tempDict);
             Instantiate(_weaponConfigSet.WeaponPowerUpConfigs.Find(x => x.Type == weaponType).Prefab, position,
-                Quaternion.identity); //Можно закешировать чтобы не тягать запросы каждый раз
+                Quaternion.identity);
         }
     }
 }
