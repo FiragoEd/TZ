@@ -1,18 +1,21 @@
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using Sirenix.Utilities;
+using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Data/LevelData")]
-public class LevelData : ScriptableObject
+public class LevelData : SerializedScriptableObject
 {
 	public int Index;
 
-	public bool[,] GetMap() => MapCellDrawing;
+	public bool[,] GetMap() => _mapCellDrawing;
 	
-	[ShowInInspector]
+	
 	[TableMatrix(HorizontalTitle = "Map", DrawElementMethod = "DrawColoredEnumElement", ResizableColumns = true)]
-	private bool[,] MapCellDrawing = new bool[12, 12];
+	[OdinSerialize]
+	private bool[,] _mapCellDrawing = new bool[12, 12];
 	
 	private static bool DrawColoredEnumElement(Rect rect, bool value)
 	{
@@ -23,7 +26,7 @@ public class LevelData : ScriptableObject
 			Event.current.Use();
 		}
 
-		UnityEditor.EditorGUI.DrawRect(rect.Padding(1), value ? new Color(0.1f, 0.8f, 0.2f) : new Color(0, 0, 0, 0.5f));
+		EditorGUI.DrawRect(rect.Padding(1), value ? new Color(0.1f, 0.8f, 0.2f) : new Color(0, 0, 0, 0.5f));
 
 		return value;
 	}
