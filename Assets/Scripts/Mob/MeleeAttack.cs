@@ -59,6 +59,13 @@ public class MeleeAttack : MonoBehaviour, IMobComponent
 		_attackCoroutine = null;
 	}
 
+	public void OnSpawn()
+	{
+		attacking = false;
+		_attackCoroutine = null;
+		enabled = true;
+	}
+
 	public void OnDeath()
 	{
 		enabled = false;

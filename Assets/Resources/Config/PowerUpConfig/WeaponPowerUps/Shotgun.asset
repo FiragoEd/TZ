@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Shotgun
   m_EditorClassIdentifier: 
   _type: 2
-  _weight: 10
+  _weight: 40
   _prefab: {fileID: 8641618984027163000, guid: c74f7ca528828694d96d08fb93f5b77d, type: 3}

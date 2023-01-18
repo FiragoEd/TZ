@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using NTC.Global.Pool;
 using PowerUps;
 using UnityEngine;
 
@@ -41,7 +42,7 @@ public class Rifle : PlayerWeapon
 
 		await Task.Delay(16);
 
-		var bullet = Instantiate(BulletPrefab, FirePoint.position, transform.rotation);
+		var bullet = NightPool.Spawn(BulletPrefab, FirePoint.position, transform.rotation);
 		bullet.Damage = GetDamage();
 		VFX.Play();
 	}

@@ -5,7 +5,7 @@ using Utils;
 
 namespace UI
 {
-    public class EnemyBar : MonoBehaviour, IMobComponent
+    public class EnemyBar : MonoBehaviour
     {
         [SerializeField] private Mob.Mob _mob;
         [SerializeField] private MobAnimator _mobAnimator;
@@ -21,29 +21,42 @@ namespace UI
         {
             _mob.OnHPChange.AddListener(OnHPChange);
             _mob.OnDeath.AddListener(OnDeath);
+            _mob.OnSpawnEvent.AddListener(OnSpawn);
             _mobAnimator.OnAttack.AddListener(ShowAlertAnimation);
             _camera = Camera.main;
         }
 
         private void Start()
         {
-            var color = _alertImg.color;
-            color.a = 0f;
-            _alertImg.color = color;
-            _maxHP = _mob.MaxHealth;
-            UpdateBar(_maxHP);
+            SetupBar();
         }
 
         private void OnDestroy()
         {
+            _mob.OnSpawnEvent.RemoveListener(OnSpawn);
             _mob.OnHPChange.RemoveListener(OnHPChange);
             _mob.OnDeath.RemoveListener(OnDeath);
             _mobAnimator.OnAttack.RemoveListener(ShowAlertAnimation);
         }
 
+        public void OnSpawn()
+        {
+            SetupBar();
+            _bar.SetActive(true);
+        }
+
         public void OnDeath()
         {
             _bar.SetActive(false);
+        }
+
+        private void SetupBar()
+        {
+            var color = _alertImg.color;
+            color.a = 0f;
+            _alertImg.color = color;
+            _maxHP = _mob.MaxHealth;
+            UpdateBar(_maxHP);
         }
 
         private void LateUpdate()
@@ -72,10 +85,7 @@ namespace UI
         private void ShowAlertAnimation()
         {
             _alertImg.DOKill();
-            _alertImg.DOFade(1, 0.3f).OnComplete(() =>
-            {
-                _alertImg.DOFade(0, 0.3f).SetDelay(0.5f);
-            });
+            _alertImg.DOFade(1, 0.3f).OnComplete(() => { _alertImg.DOFade(0, 0.3f).SetDelay(0.5f); });
         }
     }
 }

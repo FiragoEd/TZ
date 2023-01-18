@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using NTC.Global.Pool;
+using UnityEngine;
 
 namespace Systems
 {
@@ -15,7 +16,7 @@ namespace Systems
 		public override void HandleMessage(SpawnMobMessage message)
 		{
 			var position = new Vector3(Random.value * 11 - 6,1,Random.value * 11 - 6);
-			Instantiate(Prefabs[message.Type], position, Quaternion.identity);
+			NightPool.Spawn(Prefabs[message.Type], position, Quaternion.identity);
 		}
 	}
 }

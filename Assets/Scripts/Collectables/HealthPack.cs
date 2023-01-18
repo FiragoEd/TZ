@@ -1,5 +1,6 @@
 ﻿using PowerUps.Behaviour;
 using UnityEngine;
+using Utils.FadeText;
 
 namespace Collectables
 {
@@ -10,6 +11,7 @@ namespace Collectables
         public override void ApplyPowerUp()
         {
             Player.Instance.Heal(Health);
+            FadeTextSpawner.Instance.SpawnFadedText("+" + Health, transform.position);
             Destroy(gameObject);
         }
     }

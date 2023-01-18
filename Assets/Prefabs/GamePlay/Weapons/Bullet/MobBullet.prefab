@@ -58,6 +58,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4d15ccbd4f64aa7a104ed484bfc5392, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _trailRenderer: {fileID: 8742642914883562961}
   Damage: 1
   Speed: 8
   DamagePlayer: 1
@@ -199,5 +200,5 @@ TrailRenderer:
     shadowBias: 0.5
     generateLightingData: 0
   m_MinVertexDistance: 0.1
-  m_Autodestruct: 1
+  m_Autodestruct: 0
   m_Emitting: 1

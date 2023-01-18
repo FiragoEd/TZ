@@ -21,6 +21,11 @@ public class MobAnimator : MonoBehaviour, IMobComponent
         Animator.SetBool("Run", isRun);
     }
 
+    public void OnSpawn()
+    {
+        SetIsRun(false);
+    }
+
     public void OnDeath()
     {
         Animator.SetTrigger("Death");
