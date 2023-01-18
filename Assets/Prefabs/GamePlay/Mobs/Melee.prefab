@@ -187,7 +187,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AttackDistance: 1
   AttackDelay: 1.1
-  DamageDistance: 1
+  AttackCooldown: 2
+  DamageDistance: 1.5
 --- !u!114 &5810525095806316378
 MonoBehaviour:
   m_ObjectHideFlags: 0

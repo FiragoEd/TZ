@@ -2,6 +2,7 @@
 using PlayerComponents;
 using UnityEngine;
 using Utils;
+using Utils.FadeText;
 
 namespace MobComponents.Attacks.Types
 {
@@ -10,6 +11,7 @@ namespace MobComponents.Attacks.Types
     [RequireComponent(typeof(MobAnimator))]
     public class MeleeAttack : MobAttackBase
     {
+        [SerializeField] private float AttackCooldown = 2f;
         [SerializeField] private float DamageDistance = 1f;
 
         protected override IEnumerator Attack()
@@ -21,9 +23,11 @@ namespace MobComponents.Attacks.Types
             if (playerDistance <= DamageDistance)
             {
                 Player.Instance.TakeDamage(mob.Damage);
+                FadeTextSpawner.Instance.SpawnFadedText("-" + mob.Damage, Player.Instance.transform.position);
             }
 
             mover.Active = true;
+            yield return new WaitForSeconds(AttackCooldown);
             attacking = false;
             _attackCoroutine = null;
         }
