@@ -206,8 +206,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb8a2d064d344f1d9033bca81ce82bb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SightDistance: 5
-  MoveSpeed: 2
+  _sightDistance: 5
+  _moveSpeed: 2
   Active: 1
 --- !u!114 &3110187174788514462
 MonoBehaviour:
@@ -221,10 +221,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed265e9693642af46ae96fdb3563aa86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 1
-  MoveSpeed: 3.5
-  Health: 3
-  MaxHealth: 3
+  _damage: 1
+  _moveSpeed: 3.5
+  _health: 3
+  _maxHealth: 3
 --- !u!114 &3622276675670377537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,8 +253,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 486f553d70504dd0bb7c4aceed161ac5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Animator: {fileID: 1429688719996252449}
-  AttackTrigger: Shoot
+  _animator: {fileID: 1429688719996252449}
+  _attackTrigger: MeleeAttack
 --- !u!114 &4046468184226229345
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -5,32 +5,39 @@ using Sirenix.Utilities;
 using UnityEditor;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Data/LevelData")]
-public class LevelData : SerializedScriptableObject
+namespace Data
 {
-	public int Index;
-
-	public bool[,] GetMap() => _mapCellDrawing;
-	
-	
-	[TableMatrix(HorizontalTitle = "Map", DrawElementMethod = "DrawColoredEnumElement", ResizableColumns = true)]
-	[OdinSerialize]
-	private bool[,] _mapCellDrawing = new bool[12, 12];
-	
-	private static bool DrawColoredEnumElement(Rect rect, bool value)
+	[CreateAssetMenu(menuName = "Data/LevelData")]
+	public class LevelData : SerializedScriptableObject
 	{
-		if (Event.current.type == EventType.MouseDown && rect.Contains(Event.current.mousePosition))
+		[SerializeField] private int _index;
+		[SerializeField] List<WaveData> _waveDatas;
+		[SerializeField] float _waveInterval = 5f;
+	
+		[TableMatrix(HorizontalTitle = "Map", DrawElementMethod = "DrawColoredEnumElement", ResizableColumns = true)]
+		[OdinSerialize]
+		private bool[,] _mapCellCellDrawing = new bool[12, 12];
+
+		public int Index => _index;
+		public float WaveInterval => _waveInterval;
+		public List<WaveData> WaveData => _waveDatas;
+		public bool[,] MapCell => _mapCellCellDrawing;
+		
+
+		private static bool DrawColoredEnumElement(Rect rect, bool value)
 		{
-			value = !value;
-			GUI.changed = true;
-			Event.current.Use();
+			if (Event.current.type == EventType.MouseDown && rect.Contains(Event.current.mousePosition))
+			{
+				value = !value;
+				GUI.changed = true;
+				Event.current.Use();
+			}
+
+			EditorGUI.DrawRect(rect.Padding(1), value ? new Color(0.1f, 0.8f, 0.2f) : new Color(0, 0, 0, 0.5f));
+
+			return value;
 		}
 
-		EditorGUI.DrawRect(rect.Padding(1), value ? new Color(0.1f, 0.8f, 0.2f) : new Color(0, 0, 0, 0.5f));
-
-		return value;
+	
 	}
-
-	public List<WaveData> WaveDatas;
-	public float WaveInterval = 5f;
 }

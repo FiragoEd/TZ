@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 
-public class WeaponAnimationMock : MonoBehaviour
+namespace Utils
 {
-	public void WeaponAttack() {}
-	public void WeaponEndAttack() {}
+	public class WeaponAnimationMock : MonoBehaviour
+	{
+		public void WeaponAttack() {}
+		public void WeaponEndAttack() {}
+	}
 }

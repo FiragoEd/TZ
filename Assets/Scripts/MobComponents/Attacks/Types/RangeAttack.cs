@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using NTC.Global.Pool;
+using PlayerComponents;
 using ProjectileUtils;
 using UnityEngine;
+using Utils;
 
-namespace Mob.Attacks.Types
+namespace MobComponents.Attacks.Types
 {
     [RequireComponent(typeof(MobMover))]
     [RequireComponent(typeof(Mob))]

@@ -10,9 +10,9 @@ namespace PowerUps.Config
     {
         [ValidateInput("NoDuplicates", "Айтемы должны быть уникальными")]
         [SerializeField] private List<PowerUpConfig> _powerUpConfigs = new List<PowerUpConfig>();
-        
+
         public List<PowerUpConfig> PowerUpConfigs => _powerUpConfigs;
-        
+
         private bool NoDuplicates()
         {
             return _powerUpConfigs.Count == _powerUpConfigs.Select(e => e.Type).Distinct().Count();

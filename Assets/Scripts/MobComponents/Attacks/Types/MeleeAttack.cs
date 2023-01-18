@@ -1,7 +1,9 @@
 ﻿using System.Collections;
+using PlayerComponents;
 using UnityEngine;
+using Utils;
 
-namespace Mob.Attacks.Types
+namespace MobComponents.Attacks.Types
 {
     [RequireComponent(typeof(MobMover))]
     [RequireComponent(typeof(Mob))]
@@ -9,7 +11,7 @@ namespace Mob.Attacks.Types
     public class MeleeAttack : MobAttackBase
     {
         [SerializeField] private float DamageDistance = 1f;
-    
+
         protected override IEnumerator Attack()
         {
             mobAnimator.StartAttackAnimation();

@@ -1,4 +1,6 @@
+using MobComponents;
 using NTC.Global.Pool;
+using PlayerComponents;
 using UnityEngine;
 using Utils.FadeText;
 
@@ -7,6 +9,7 @@ namespace ProjectileUtils
     public class BulletProjectile : ProjectileBase
     {
         [SerializeField] private TrailRenderer _trailRenderer;
+        
         protected override void OnTriggerEnter(Collider other)
         {
             if (destroyed)
@@ -24,7 +27,7 @@ namespace ProjectileUtils
 
             if (DamageMob && other.CompareTag("Mob"))
             {
-                var mob = other.GetComponent<Mob.Mob>();
+                var mob = other.GetComponent<Mob>();
                 mob.TakeDamage(Damage);
                 FadeTextSpawner.Instance.SpawnFadedText("-" + Damage, transform.position);
                 destroyed = true;

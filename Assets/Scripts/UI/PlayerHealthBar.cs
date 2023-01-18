@@ -1,55 +1,61 @@
-﻿using TMPro;
+﻿using PlayerComponents;
+using TMPro;
 using UnityEngine;
 using Utils;
 
-public class PlayerHealthBar : MonoBehaviour
+namespace UI
 {
-	[SerializeField] private Player _player;
-	public GameObject Bar;
-	public SpriteRenderer BarImg;
-	public TMP_Text Text;
-	public TMP_Text DamageText;
-	
-	private float maxHP;
-	
-	private void Awake()
-	{
-		_player.OnHPChange.AddListener(OnHPChange);
-		_player.OnUpgrade.AddListener(OnUpgrade);
-	}
+    public class PlayerHealthBar : MonoBehaviour
+    {
+        [SerializeField] private Player _player;
+        [SerializeField] private GameObject Bar;
+        [SerializeField] private SpriteRenderer BarImg;
+        [SerializeField] private TMP_Text Text;
+        [SerializeField] private TMP_Text DamageText;
 
-	private void OnDestroy()
-	{
-		_player.OnHPChange.RemoveListener(OnHPChange);
-		_player.OnUpgrade.RemoveListener(OnUpgrade);
-	}
+        private float maxHP;
+        private Camera _camera;
 
-	public void OnDeath()
-	{
-		Bar.SetActive(false);
-	}
-    
-	private void LateUpdate()
-	{
-		Bar.transform.rotation = Camera.main.transform.rotation;
-	}
+        private void Awake()
+        {
+            _player.OnHPChange.AddListener(OnHPChange);
+            _player.OnUpgrade.AddListener(OnUpgrade);
+            _camera = Camera.main;
+        }
 
-	private void OnHPChange(DeltaHP deltaHp)
-	{
-		var frac = deltaHp.currentHP / _player.MaxHealth;
-		Text.text = $"{deltaHp.currentHP:####}/{_player.MaxHealth:####}";
-		BarImg.size = new Vector2(frac, BarImg.size.y);
-		var pos = BarImg.transform.localPosition;
-		pos.x = -(1 - frac) / 2;
-		BarImg.transform.localPosition = pos;
-		if (deltaHp.currentHP <= 0)
-		{
-			Bar.SetActive(false);
-		}
-	}
+        private void OnDestroy()
+        {
+            _player.OnHPChange.RemoveListener(OnHPChange);
+            _player.OnUpgrade.RemoveListener(OnUpgrade);
+        }
 
-	private void OnUpgrade()
-	{
-		DamageText.text = $"{_player.Damage}";
-	}
+        public void OnDeath()
+        {
+            Bar.SetActive(false);
+        }
+
+        private void LateUpdate()
+        {
+            Bar.transform.rotation = _camera.transform.rotation;
+        }
+
+        private void OnHPChange(DeltaHP deltaHp)
+        {
+            var frac = deltaHp.currentHP / _player.MaxHealth;
+            Text.text = $"{deltaHp.currentHP:####}/{_player.MaxHealth:####}";
+            BarImg.size = new Vector2(frac, BarImg.size.y);
+            var pos = BarImg.transform.localPosition;
+            pos.x = -(1 - frac) / 2;
+            BarImg.transform.localPosition = pos;
+            if (deltaHp.currentHP <= 0)
+            {
+                Bar.SetActive(false);
+            }
+        }
+
+        private void OnUpgrade()
+        {
+            DamageText.text = $"{_player.Damage}";
+        }
+    }
 }

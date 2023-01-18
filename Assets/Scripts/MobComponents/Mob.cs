@@ -5,19 +5,25 @@ using Utils;
 using Utils.Events;
 using Event = Utils.Events.Event;
 
-namespace Mob
+namespace MobComponents
 {
+    [RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(Collider))]
+    [RequireComponent(typeof(IMobComponent))]
     public class Mob : MonoBehaviour, IPoolItem
     {
         private const float TIME_TO_DESPAWN = 2;
         private const float DELTA_Y = 2;
-        public float Damage = 1;
-        public float MoveSpeed = 3.5f;
-        public float Health = 3;
-        public float MaxHealth = 3;
 
+        [SerializeField] private float _damage = 1;
+        [SerializeField] private float _moveSpeed = 3.5f;
+        [SerializeField] private float _health = 3;
+        [SerializeField] private float _maxHealth = 3;
 
         private float _yPos;
+        private IMobComponent[] _cachedComponents;
+        private Collider _cachedCollider;
+        private Rigidbody _cachedRigidbody;
 
         #region Events
 
@@ -26,11 +32,23 @@ namespace Mob
 
         private readonly InvokableEvent _onDeath = new InvokableEvent();
         public Event OnDeath => _onDeath;
-        
+
         private readonly InvokableEvent _onSpawnEvent = new InvokableEvent();
         public Event OnSpawnEvent => _onSpawnEvent;
 
         #endregion
+
+        public float Damage => _damage;
+        public float MoveSpeed => _moveSpeed;
+        public float Health => _health;
+        public float MaxHealth => _maxHealth;
+
+        private void Awake()
+        {
+            _cachedComponents = GetComponents<IMobComponent>();
+            _cachedCollider = GetComponent<Collider>();
+            _cachedRigidbody = GetComponent<Rigidbody>();
+        }
 
         private void Start()
         {
@@ -39,15 +57,15 @@ namespace Mob
 
         public void OnSpawn()
         {
-            Health = MaxHealth;
+            _health = _maxHealth;
             _onSpawnEvent?.Invoke();
-            var components = GetComponents<IMobComponent>();
-            foreach (var component in components)
+            foreach (var component in _cachedComponents)
             {
                 component.OnSpawn();
             }
-            GetComponent<Collider>().enabled = true;
-            GetComponent<Rigidbody>().isKinematic = false;
+
+            _cachedCollider.enabled = true;
+            _cachedRigidbody.isKinematic = false;
         }
 
         public void OnDespawn()
@@ -57,16 +75,16 @@ namespace Mob
 
         public void TakeDamage(float amount)
         {
-            if (Health <= 0)
+            if (_health <= 0)
                 return;
-            Health -= amount;
+            _health -= amount;
             _onHPChange?.Invoke(new DeltaHP()
             {
-                currentHP = Health,
+                currentHP = _health,
                 deltaHP = -amount
             });
-            
-            if (Health <= 0)
+
+            if (_health <= 0)
             {
                 Death();
             }
@@ -74,17 +92,17 @@ namespace Mob
 
         public void Heal(float amount)
         {
-            if (Health <= 0)
+            if (_health <= 0)
                 return;
-            Health += amount;
-            if (Health > MaxHealth)
+            _health += amount;
+            if (_health > _maxHealth)
             {
-                Health = MaxHealth;
+                _health = _maxHealth;
             }
 
             _onHPChange?.Invoke(new DeltaHP()
             {
-                currentHP = Health,
+                currentHP = _health,
                 deltaHP = amount
             });
         }
@@ -92,15 +110,14 @@ namespace Mob
         private void Death()
         {
             EventBus.Pub(EventBus.MOB_KILLED);
-            var components = GetComponents<IMobComponent>();
             _onDeath?.Invoke();
-            foreach (var component in components)
+            foreach (var component in _cachedComponents)
             {
                 component.OnDeath();
             }
 
-            GetComponent<Collider>().enabled = false;
-            GetComponent<Rigidbody>().isKinematic = true;
+            _cachedCollider.enabled = false;
+            _cachedRigidbody.isKinematic = true;
             transform.DOMoveY(-DELTA_Y, TIME_TO_DESPAWN * 1 / 4f).SetDelay(TIME_TO_DESPAWN * 3 / 4f);
             NightPool.Despawn(this, TIME_TO_DESPAWN);
         }

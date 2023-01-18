@@ -19,10 +19,7 @@ namespace Utils.FadeText
         public void OnSpawn()
         {
             transform.rotation = _camera.transform.rotation;
-            _text.DOFade(0, 1).From(1).OnComplete(() =>
-            {
-                NightPool.Despawn(this);
-            });
+            _text.DOFade(0, 1).From(1).OnComplete(() => { NightPool.Despawn(this); });
         }
 
         public void OnDespawn()

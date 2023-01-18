@@ -8,13 +8,12 @@ namespace Utils.Events
 
         public void AddListener(Action<T> listener) => listeners += listener;
         public void RemoveListener(Action<T> listener) => listeners -= listener;
-        
     }
 
     public class Event
     {
         protected Action listeners;
-    
+
         public void AddListener(Action listener) => listeners += listener;
         public void RemoveListener(Action listener) => listeners -= listener;
     }

@@ -1,4 +1,5 @@
 using DG.Tweening;
+using MobComponents;
 using TMPro;
 using UnityEngine;
 using Utils;
@@ -7,7 +8,7 @@ namespace UI
 {
     public class EnemyBar : MonoBehaviour
     {
-        [SerializeField] private Mob.Mob _mob;
+        [SerializeField] private Mob _mob;
         [SerializeField] private MobAnimator _mobAnimator;
         [SerializeField] private GameObject _bar;
         [SerializeField] private SpriteRenderer _barImg;

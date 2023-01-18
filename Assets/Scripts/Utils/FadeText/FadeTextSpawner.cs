@@ -7,7 +7,7 @@ namespace Utils.FadeText
     {
         public static FadeTextSpawner Instance;
         [SerializeField] private FadedNumbers _fadedPrefab;
-        
+
         private void Awake()
         {
             if (Instance != null)
@@ -30,8 +30,8 @@ namespace Utils.FadeText
 
         public void SpawnFadedText(string text, Vector3 pos)
         {
-           var fadedText =  NightPool.Spawn(_fadedPrefab, pos);
-           fadedText.SetText(text);
+            var fadedText = NightPool.Spawn(_fadedPrefab, pos);
+            fadedText.SetText(text);
         }
     }
 }

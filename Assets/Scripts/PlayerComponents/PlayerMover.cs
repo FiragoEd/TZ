@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using PlayerComponents;
+using UnityEngine;
 
 [RequireComponent(typeof(Player))]
 public class PlayerMover : MonoBehaviour

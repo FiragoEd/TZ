@@ -1,31 +1,38 @@
 ﻿using PowerUps;
 using UnityEngine;
 
-public abstract class PlayerWeapon : MonoBehaviour
+namespace PlayerComponents
 {
-	public abstract WeaponType Type { get; }
-	public GameObject Model;
-
-	protected virtual void Awake()
+	[RequireComponent(typeof(Player))]
+	public abstract class PlayerWeapon : MonoBehaviour
 	{
-		GetComponent<Player>().OnWeaponChange.AddListener(Change);
-	}
+		protected abstract WeaponType _type { get; }
+		[SerializeField] protected GameObject Model;
 
-	protected virtual void OnDestroy()
-	{
-		GetComponent<Player>().OnWeaponChange.RemoveListener(Change);
-		EventBus<PlayerInputMessage>.Unsub(Fire);
-	}
+		protected Player _player;
 
-	protected void Change(WeaponType type)
-	{
-		EventBus<PlayerInputMessage>.Unsub(Fire);
-		if (type == Type)
+		protected virtual void Awake()
 		{
-			EventBus<PlayerInputMessage>.Sub(Fire);
+			_player = GetComponent<Player>();
+			_player.OnWeaponChange.AddListener(Change);
 		}
-		Model.SetActive(type == Type);
-	}
 
-	protected abstract void Fire(PlayerInputMessage message);
+		protected virtual void OnDestroy()
+		{
+			_player.OnWeaponChange.RemoveListener(Change);
+			EventBus<PlayerInputMessage>.Unsub(Fire);
+		}
+
+		private void Change(WeaponType type)
+		{
+			EventBus<PlayerInputMessage>.Unsub(Fire);
+			if (type == _type)
+			{
+				EventBus<PlayerInputMessage>.Sub(Fire);
+			}
+			Model.SetActive(type == _type);
+		}
+
+		protected abstract void Fire(PlayerInputMessage message);
+	}
 }

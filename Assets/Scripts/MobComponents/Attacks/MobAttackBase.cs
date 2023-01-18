@@ -1,7 +1,9 @@
 using System.Collections;
+using PlayerComponents;
 using UnityEngine;
+using Utils;
 
-namespace Mob.Attacks
+namespace MobComponents.Attacks
 {
     [RequireComponent(typeof(MobMover))]
     [RequireComponent(typeof(Mob))]
@@ -16,27 +18,28 @@ namespace Mob.Attacks
         protected MobAnimator mobAnimator;
         protected bool attacking = false;
         protected Coroutine _attackCoroutine = null;
-        
-        
+
+
         private void Awake()
         {
             mob = GetComponent<Mob>();
             mover = GetComponent<MobMover>();
             mobAnimator = GetComponent<MobAnimator>();
-            EventBus.Sub(OnDeath,EventBus.PLAYER_DEATH);
+            EventBus.Sub(OnDeath, EventBus.PLAYER_DEATH);
         }
 
         private void OnDestroy()
         {
-            EventBus.Unsub(OnDeath,EventBus.PLAYER_DEATH);
+            EventBus.Unsub(OnDeath, EventBus.PLAYER_DEATH);
         }
-        
+
         private void Update()
         {
             if (attacking)
             {
                 return;
             }
+
             var playerDistance = (transform.position - Player.Instance.transform.position).Flat().magnitude;
             if (playerDistance <= AttackDistance)
             {
@@ -44,10 +47,10 @@ namespace Mob.Attacks
                 _attackCoroutine = StartCoroutine(Attack());
             }
         }
-        
-        
+
+
         protected abstract IEnumerator Attack();
-        
+
         public void OnSpawn()
         {
             attacking = false;

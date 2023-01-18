@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 
-public static class Vector3Extensions
+namespace Utils
 {
-	public static Vector3 Flat(this Vector3 vector3)
+	public static class Vector3Extensions
 	{
-		vector3.y = 0;
-		return vector3;
+		public static Vector3 Flat(this Vector3 vector3)
+		{
+			vector3.y = 0;
+			return vector3;
+		}
 	}
 }

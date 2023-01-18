@@ -1,15 +1,17 @@
-﻿using PowerUps;
+﻿using PlayerComponents;
+using PowerUps;
 using PowerUps.Behaviour;
+using UnityEngine;
 
 namespace Collectables
 {
     public class WeaponPowerUp : PowerUpComponentBase
     {
-        public WeaponType Type;
-        
+        [SerializeField] private WeaponType _type;
+
         public override void ApplyPowerUp()
         {
-            Player.Instance.ChangeWeapon(Type);
+            Player.Instance.ChangeWeapon(_type);
             Destroy(gameObject);
         }
     }

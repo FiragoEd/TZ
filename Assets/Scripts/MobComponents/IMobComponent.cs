@@ -1,5 +1,8 @@
-﻿public interface IMobComponent
+﻿namespace MobComponents
 {
-	void OnSpawn();
-	void OnDeath();
+    public interface IMobComponent
+    {
+        void OnSpawn();
+        void OnDeath();
+    }
 }

@@ -1,4 +1,5 @@
-﻿using PowerUps.Behaviour;
+﻿using PlayerComponents;
+using PowerUps.Behaviour;
 using UnityEngine;
 
 namespace Collectables

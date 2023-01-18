@@ -1,8 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class WaveData
+namespace Data
 {
-	public List<Vector2Int> WaveMobNCount;
+    [Serializable]
+    public class WaveData
+    {
+        public List<Vector2Int> WaveMobNCount;
+    }
 }

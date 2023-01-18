@@ -21,7 +21,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: _mapCellDrawing
+    - Name: _mapCellCellDrawing
       Entry: 7
       Data: 0|System.Boolean[,], mscorlib
     - Name: 
@@ -468,12 +468,11 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  Index: 0
-  WaveDatas:
+  _index: 0
+  _waveDatas:
   - WaveMobNCount:
-    - {x: 0, y: 1}
+    - {x: 0, y: 2}
     - {x: 1, y: 2}
     - {x: 2, y: 2}
-    - {x: 0, y: 3}
-    - {x: 1, y: 4}
-  WaveInterval: 10
+    - {x: 0, y: 2}
+  _waveInterval: 5

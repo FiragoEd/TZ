@@ -2,32 +2,35 @@
 using Utils.Events;
 using Event = Utils.Events.Event;
 
-public class MobAnimator : MonoBehaviour, IMobComponent
+namespace MobComponents
 {
-    public Animator Animator;
-    public string AttackTrigger = "MeleeAttack";
-
-    private readonly InvokableEvent _onAttack = new InvokableEvent();
-    public Event OnAttack => _onAttack;
-    
-    public void StartAttackAnimation()
+    public class MobAnimator : MonoBehaviour, IMobComponent
     {
-        _onAttack?.Invoke();
-        Animator.SetTrigger(AttackTrigger);
-    }
+        [SerializeField] private Animator _animator;
+        [SerializeField] private string _attackTrigger = "MeleeAttack";
 
-    public void SetIsRun(bool isRun)
-    {
-        Animator.SetBool("Run", isRun);
-    }
+        private readonly InvokableEvent _onAttack = new InvokableEvent();
+        public Event OnAttack => _onAttack;
 
-    public void OnSpawn()
-    {
-        SetIsRun(false);
-    }
+        public void StartAttackAnimation()
+        {
+            _onAttack?.Invoke();
+            _animator.SetTrigger(_attackTrigger);
+        }
 
-    public void OnDeath()
-    {
-        Animator.SetTrigger("Death");
+        public void SetIsRun(bool isRun)
+        {
+            _animator.SetBool("Run", isRun); // Можно хранить в констанстном виде для детерминированности 
+        }
+
+        public void OnSpawn()
+        {
+            SetIsRun(false);
+        }
+
+        public void OnDeath()
+        {
+            _animator.SetTrigger("Death"); // Можно хранить в констанстном виде для детерминированности 
+        }
     }
 }

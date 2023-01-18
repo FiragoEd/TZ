@@ -6,30 +6,39 @@ using UnityEngine;
 
 namespace PlayerComponents
 {
-    public class RocketLauncher : PlayerWeapon
+    [RequireComponent(typeof(Player))]
+    [RequireComponent(typeof(PlayerAnimator))]
+    public sealed class RocketLauncher : PlayerWeapon
     {
-        public override WeaponType Type => WeaponType.RocketLauncher;
-        public BulletProjectile BulletPrefab;
-        public float Reload = 1f;
-        public Transform FirePoint;
-        public ParticleSystem VFX;
+        protected override WeaponType _type => WeaponType.RocketLauncher;
+        [SerializeField] private BulletProjectile _bulletPrefab;
+        [SerializeField] private float _reload = 1f;
+        [SerializeField] private Transform _firePoint;
+        [SerializeField] private ParticleSystem _vfxEffect;
 
-        protected float lastTime;
+        private float _lastTime;
+
+        private PlayerAnimator _playerAnimator;
 
         protected override void Awake()
         {
             base.Awake();
-            lastTime = Time.time - Reload;
+            _playerAnimator = GetComponent<PlayerAnimator>();
         }
 
-        protected virtual float GetDamage()
+        private void Start()
         {
-            return GetComponent<Player>().Damage * 2f;
+            _lastTime = Time.time - _reload;
+        }
+
+        private float GetDamage()
+        {
+            return _player.Damage * 2f;
         }
 
         protected override async void Fire(PlayerInputMessage message)
         {
-            if (Time.time - Reload < lastTime)
+            if (Time.time - _reload < _lastTime)
             {
                 return;
             }
@@ -39,14 +48,14 @@ namespace PlayerComponents
                 return;
             }
 
-            lastTime = Time.time;
-            GetComponent<PlayerAnimator>().TriggerShoot();
+            _lastTime = Time.time;
+            _playerAnimator.TriggerShoot();
 
             await Task.Delay(16);
 
-            var bullet = NightPool.Spawn(BulletPrefab, FirePoint.position, transform.rotation);
-            bullet.SetDamage(GetDamage()); // TODO : кэшировать
-            VFX.Play();
+            var bullet = NightPool.Spawn(_bulletPrefab, _firePoint.position, transform.rotation);
+            bullet.SetDamage(GetDamage());
+            _vfxEffect.Play();
         }
     }
 }

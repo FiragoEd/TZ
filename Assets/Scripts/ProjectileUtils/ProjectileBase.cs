@@ -39,7 +39,7 @@ namespace ProjectileUtils
         public virtual void OnDespawn()
         {
         }
-        
+
         public void SetDamage(float damage)
         {
             Damage = damage;

@@ -1,8 +1,11 @@
+using System;
+
 namespace PowerUps
 {
+    [Serializable]
     public enum WeaponType
     {
-        Rifle, 
+        Rifle,
         AutomaticRifle,
         Shotgun,
         RocketLauncher

@@ -80,8 +80,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb8a2d064d344f1d9033bca81ce82bb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SightDistance: 5
-  MoveSpeed: 2
+  _sightDistance: 5
+  _moveSpeed: 2
   Active: 1
 --- !u!114 &8621619010077877276
 MonoBehaviour:
@@ -95,10 +95,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed265e9693642af46ae96fdb3563aa86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 1
-  MoveSpeed: 3.5
-  Health: 3
-  MaxHealth: 3
+  _damage: 1
+  _moveSpeed: 3.5
+  _health: 3
+  _maxHealth: 3
 --- !u!114 &7983570968990229187
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,8 +127,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 486f553d70504dd0bb7c4aceed161ac5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Animator: {fileID: 9026209752835179921}
-  AttackTrigger: Shoot
+  _animator: {fileID: 9026209752835179921}
+  _attackTrigger: MeleeAttack
 --- !u!114 &8610088509026123635
 MonoBehaviour:
   m_ObjectHideFlags: 0

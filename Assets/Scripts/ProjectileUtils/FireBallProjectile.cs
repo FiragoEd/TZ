@@ -1,4 +1,5 @@
 using NTC.Global.Pool;
+using PlayerComponents;
 using UnityEngine;
 using Utils.FadeText;
 
@@ -12,7 +13,7 @@ namespace ProjectileUtils
             {
                 return;
             }
-            
+
             if (DamagePlayer && other.CompareTag("Player"))
             {
                 other.GetComponent<Player>().TakeDamage(Damage);

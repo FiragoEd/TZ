@@ -1,3 +1,4 @@
+using PlayerComponents;
 using UnityEngine;
 
 public class PlayerInput : MonoBehaviour

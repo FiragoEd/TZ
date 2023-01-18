@@ -4,62 +4,74 @@ using PowerUps;
 using ProjectileUtils;
 using UnityEngine;
 
-public class Shotgun : PlayerWeapon
+namespace PlayerComponents
 {
-    public override WeaponType Type => WeaponType.Shotgun;
-    public BulletProjectile BulletPrefab;
-    public float Reload = 1f;
-    public Transform FirePoint;
-    public ParticleSystem VFX;
-
-    protected float lastTime;
-
-    protected override void Awake()
+    [RequireComponent(typeof(Player))]
+    [RequireComponent(typeof(PlayerAnimator))]
+    public sealed class Shotgun : PlayerWeapon
     {
-        base.Awake();
-        lastTime = Time.time - Reload;
-    }
+        protected override WeaponType _type => WeaponType.Shotgun;
+        [SerializeField] private BulletProjectile _bulletPrefab;
+        [SerializeField] private float _reload = 1f;
+        [SerializeField] private Transform _firePoint;
+        [SerializeField] private ParticleSystem _vfxEffect;
 
-    protected virtual float GetDamage()
-    {
-        return GetComponent<Player>().Damage;
-    }
+        private float _lastTime;
 
-    protected override async void Fire(PlayerInputMessage message)
-    {
-        if (Time.time - Reload < lastTime)
+        private PlayerAnimator _playerAnimator;
+
+        protected override void Awake()
         {
-            return;
+            base.Awake();
+            _playerAnimator = GetComponent<PlayerAnimator>();
         }
 
-        if (!message.Fire)
+        private void Start()
         {
-            return;
+            _lastTime = Time.time - _reload;
         }
 
-        lastTime = Time.time;
-        GetComponent<PlayerAnimator>().TriggerShoot();
-
-        await Task.Delay(16);
-        var directions = SpreadDirections(transform.rotation.eulerAngles, 3, 20);
-        foreach (var direction in directions)
+        private float GetDamage()
         {
-            var bullet = NightPool.Spawn(BulletPrefab, FirePoint.position, Quaternion.Euler(direction));
-            bullet.SetDamage(GetDamage()); // TODO : кэшировать
+            return _player.Damage;
         }
 
-        VFX.Play();
-    }
-
-    public Vector3[] SpreadDirections(Vector3 direction, int num, int spreadAngle)
-    {
-        Vector3[] result = new Vector3[num];
-        result[0] = new Vector3(0, direction.y - (num - 1) * spreadAngle / 2, 0);
-        for (int i = 1; i < num; i++)
+        protected override async void Fire(PlayerInputMessage message)
         {
-            result[i] = result[i - 1] + new Vector3(0, spreadAngle, 0);
+            if (Time.time - _reload < _lastTime)
+            {
+                return;
+            }
+
+            if (!message.Fire)
+            {
+                return;
+            }
+
+            _lastTime = Time.time;
+            _playerAnimator.TriggerShoot();
+
+            await Task.Delay(16);
+            var directions = SpreadDirections(transform.rotation.eulerAngles, 3, 20);
+            foreach (var direction in directions)
+            {
+                var bullet = NightPool.Spawn(_bulletPrefab, _firePoint.position, Quaternion.Euler(direction));
+                bullet.SetDamage(GetDamage());
+            }
+
+            _vfxEffect.Play();
         }
 
-        return result;
+        private Vector3[] SpreadDirections(Vector3 direction, int num, int spreadAngle)
+        {
+            Vector3[] result = new Vector3[num];
+            result[0] = new Vector3(0, direction.y - (num - 1) * spreadAngle / 2, 0);
+            for (int i = 1; i < num; i++)
+            {
+                result[i] = result[i - 1] + new Vector3(0, spreadAngle, 0);
+            }
+
+            return result;
+        }
     }
 }
