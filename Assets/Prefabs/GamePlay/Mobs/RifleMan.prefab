@@ -114,7 +114,7 @@ MonoBehaviour:
   AttackDistance: 5
   AttackDelay: 0.5
   AttackCooldown: 2
-  Bullet: {fileID: 7677098091910664037, guid: d532abb5319870b458402244467437d6, type: 3}
+  _bullet: {fileID: 6766341310604462495, guid: d532abb5319870b458402244467437d6, type: 3}
 --- !u!114 &1949625336525987856
 MonoBehaviour:
   m_ObjectHideFlags: 0

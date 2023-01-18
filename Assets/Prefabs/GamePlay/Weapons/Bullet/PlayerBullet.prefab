@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1135350017039186636}
   - component: {fileID: 1135350017039186641}
-  - component: {fileID: 7677098091910664037}
-  m_Layer: 10
+  - component: {fileID: 7412358247952927152}
+  m_Layer: 0
   m_Name: PlayerBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,7 +46,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7677098091910664037
+--- !u!114 &7412358247952927152
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -55,15 +55,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1135350017039186640}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4d15ccbd4f64aa7a104ed484bfc5392, type: 3}
+  m_Script: {fileID: 11500000, guid: cf5f138dd5fea4a4b8963b28186bd410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _trailRenderer: {fileID: 8742642914883562961}
   Damage: 1
-  Speed: 35
+  Speed: 10
   DamagePlayer: 0
   DamageMob: 1
-  TimeToLive: 2
+  TimeToLive: 3
+  _trailRenderer: {fileID: 8742642914883562961}
 --- !u!1 &7396255122896215957
 GameObject:
   m_ObjectHideFlags: 0
@@ -74,7 +74,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9134564867562282765}
   - component: {fileID: 8742642914883562961}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}

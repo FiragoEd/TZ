@@ -1,12 +1,13 @@
 ﻿using System.Threading.Tasks;
 using NTC.Global.Pool;
 using PowerUps;
+using ProjectileUtils;
 using UnityEngine;
 
 public class AutomaticRifle : PlayerWeapon
 {
 	public override WeaponType Type => WeaponType.AutomaticRifle;
-	public Projectile BulletPrefab;
+	public BulletProjectile BulletPrefab;
 	public float Reload = 1f;
 	public Transform FirePoint;
 	public ParticleSystem VFX;
@@ -42,7 +43,7 @@ public class AutomaticRifle : PlayerWeapon
 		await Task.Delay(16);
 
 		var bullet = NightPool.Spawn(BulletPrefab, FirePoint.position, transform.rotation);
-		bullet.Damage = GetDamage();
+		bullet.SetDamage(GetDamage()); // TODO : кэшировать
 		VFX.Play();
 	}
 }

@@ -1,12 +1,13 @@
 ﻿using System.Threading.Tasks;
 using NTC.Global.Pool;
 using PowerUps;
+using ProjectileUtils;
 using UnityEngine;
 
 public class Shotgun : PlayerWeapon
 {
     public override WeaponType Type => WeaponType.Shotgun;
-    public Projectile BulletPrefab;
+    public BulletProjectile BulletPrefab;
     public float Reload = 1f;
     public Transform FirePoint;
     public ParticleSystem VFX;
@@ -44,7 +45,7 @@ public class Shotgun : PlayerWeapon
         foreach (var direction in directions)
         {
             var bullet = NightPool.Spawn(BulletPrefab, FirePoint.position, Quaternion.Euler(direction));
-            bullet.Damage = GetDamage();
+            bullet.SetDamage(GetDamage()); // TODO : кэшировать
         }
 
         VFX.Play();
