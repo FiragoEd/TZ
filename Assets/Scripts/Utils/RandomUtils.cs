@@ -1,7 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using Random = UnityEngine.Random;
+using UnityEngine;
 
 namespace Utils
 {
@@ -10,8 +9,6 @@ namespace Utils
         public static T GetRandomFromArrayWithWeight<T>(Dictionary<T, float> weights)
         {
             var totalWeight = weights.Sum(x => x.Value);
-            if (totalWeight <= 1)
-                throw new ArgumentOutOfRangeException();
             while (true)
             {
                 var totalSum = 0f;

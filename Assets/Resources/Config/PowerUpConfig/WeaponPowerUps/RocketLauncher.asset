@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 056f9385eeda41799e145448e61071b4, type: 3}
-  m_Name: Shotgun
+  m_Name: RocketLauncher
   m_EditorClassIdentifier: 
-  _type: 2
-  _weight: 40
-  _prefab: {fileID: 4511679185338543144, guid: d92fd0077718c3840b7f41c84a6b8c6f, type: 3}
+  _type: 3
+  _weight: 25
+  _prefab: {fileID: 8641618984027163000, guid: ec98ac82f2007457883a37db15bfe9f6, type: 3}

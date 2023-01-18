@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: ChangeWeapon
   m_EditorClassIdentifier: 
   _type: 4
-  _weight: 10
+  _weight: 50
   _prefab: {fileID: 0}

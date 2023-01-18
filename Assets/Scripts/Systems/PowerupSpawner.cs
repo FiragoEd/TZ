@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using PowerUps;
 using PowerUps.Config;
 using UnityEngine;
@@ -18,7 +19,7 @@ public class PowerupSpawner : MonoBehaviour
         EventBus.Sub(Handle, EventBus.MOB_KILLED);
         Player.Instance.OnWeaponChange.AddListener(HandleChangeWeapon);
     }
-    
+
     private void Start()
     {
         InitWeightDictionaries();
@@ -41,7 +42,7 @@ public class PowerupSpawner : MonoBehaviour
     {
         Spawn(PickRandomPosition());
     }
-    
+
     private void HandleChangeWeapon(WeaponType obj)
     {
         _currentWeaponType = obj;
@@ -69,9 +70,9 @@ public class PowerupSpawner : MonoBehaviour
         }
         else
         {
-            var tempDict = _weaponPowerUpsWeight;
-            tempDict.Remove(_currentWeaponType);
-            var weaponType = RandomUtils.GetRandomFromArrayWithWeight(tempDict);
+            var tempDict = _weaponPowerUpsWeight.Where(x => x.Key != _currentWeaponType)
+                .ToDictionary(t => t.Key, t => t.Value);
+            var weaponType = RandomUtils.GetRandomFromArrayWithWeight<WeaponType>(tempDict);
             Instantiate(_weaponConfigSet.WeaponPowerUpConfigs.Find(x => x.Type == weaponType).Prefab, position,
                 Quaternion.identity);
         }

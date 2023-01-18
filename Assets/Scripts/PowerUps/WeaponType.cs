@@ -4,6 +4,7 @@ namespace PowerUps
     {
         Rifle, 
         AutomaticRifle,
-        Shotgun
+        Shotgun,
+        RocketLauncher
     }
 }
